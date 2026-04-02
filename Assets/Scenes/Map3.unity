@@ -10357,7 +10357,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1884936187
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -24172,6 +24172,8 @@ MonoBehaviour:
   movementTilemap: {fileID: 0}
   trapDamageFlashColor: {r: 1, g: 0, b: 0, a: 0.35}
   trapDamageFlashDuration: 0.2
+  autoSaveOnSceneStart: 1
+  autoSaveDelay: 0
   spriteUp: {fileID: -9152725890835405237, guid: 5419938d7f8e0a944b2d634041d9e065, type: 3}
   spriteDown: {fileID: -3996376105316545234, guid: b13c1868bfc02bb46a87701b407519ee, type: 3}
   spriteLeft: {fileID: 4236596419956576277, guid: b56cf44624dbf244092c2c1a1c62fe25, type: 3}
@@ -24269,7 +24271,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24288,8 +24290,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -179833335
+  m_SortingLayer: 5
   m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9152725890835405237, guid: 5419938d7f8e0a944b2d634041d9e065, type: 3}

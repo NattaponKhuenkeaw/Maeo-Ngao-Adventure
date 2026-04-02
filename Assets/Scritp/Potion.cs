@@ -11,7 +11,10 @@ public class Potion : MonoBehaviour
         {
             Player.instance.Heal(healAmount);
 
-            
+            if (AnalyticsManager.Instance != null)
+            {
+                AnalyticsManager.Instance.RegisterPotionCollected(Player.instance.currentHP);
+            }
 
             Destroy(gameObject);
         }

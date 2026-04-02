@@ -93,6 +93,10 @@ public class Player : MonoBehaviour
         }
 
         EnsureDamageFlashImage();
+        if (AnalyticsManager.Instance != null)
+        {
+            AnalyticsManager.Instance.UpdateCurrentHP(currentHP);
+        }
 
         if (autoSaveOnSceneStart)
         {
@@ -173,6 +177,12 @@ public class Player : MonoBehaviour
 
         transform.position = destination;
         isMoving = false;
+
+        if (AnalyticsManager.Instance != null)
+        {
+            // Count a step only after the player successfully reaches the next tile.
+            AnalyticsManager.Instance.RegisterSuccessfulStep();
+        }
 
         TakeDamage(damagePerStep);
         FloorTrap.ApplyTrapDamage(GetTrapCheckPosition(), this);
@@ -407,6 +417,11 @@ public class Player : MonoBehaviour
             healthSlider.value = currentHP;
         }
 
+        if (AnalyticsManager.Instance != null)
+        {
+            AnalyticsManager.Instance.UpdateCurrentHP(currentHP);
+        }
+
         if (showTrapFlash)
         {
             PlayTrapDamageFlash();
@@ -418,6 +433,13 @@ public class Player : MonoBehaviour
             {
                 audioSource.PlayOneShot(gameOverSound);
             }
+
+            if (AnalyticsManager.Instance != null)
+            {
+                string causeOfDeath = showTrapFlash ? "Trap" : "Insufficient HP";
+                AnalyticsManager.Instance.HandlePlayerDeath(causeOfDeath, transform.position, currentHP);
+            }
+
             die.SetActive(true);
             Debug.Log("Player is dead!");
             this.enabled = false;
@@ -443,6 +465,11 @@ public class Player : MonoBehaviour
             healthSlider.value = currentHP;
         }
 
+        if (AnalyticsManager.Instance != null)
+        {
+            AnalyticsManager.Instance.UpdateCurrentHP(currentHP);
+        }
+
         Debug.Log($"Player healed! HP = {currentHP}/{maxHP}");
     }
 
@@ -462,6 +489,12 @@ public class Player : MonoBehaviour
             {
                 audioSource.PlayOneShot(gameWinSound);
             }
+
+            if (AnalyticsManager.Instance != null)
+            {
+                AnalyticsManager.Instance.HandleLevelClear(currentHP);
+            }
+
             win.SetActive(true);
            
         }

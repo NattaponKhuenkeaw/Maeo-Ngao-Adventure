@@ -45,6 +45,11 @@ public class NextSceneTrigger : MonoBehaviour
         isLoading = true;
         if (Player.instance != null)
         {
+            if (AnalyticsManager.Instance != null)
+            {
+                AnalyticsManager.Instance.HandleLevelClear(Player.instance.currentHP);
+            }
+
             Gamemanager.SavePlayerHPForNextScene(Player.instance.currentHP);
         }
 
