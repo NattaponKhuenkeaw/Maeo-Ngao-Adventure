@@ -16,6 +16,12 @@ public class Gamemanager : MonoBehaviour
         public static SaveData data;
     }
 
+    public static class SceneTransition
+    {
+        public static bool hasPlayerHP = false;
+        public static int playerHP;
+    }
+
 
     [System.Serializable]
     public class SaveData
@@ -76,10 +82,32 @@ public class Gamemanager : MonoBehaviour
     {
         SessionSave.hasSave = false;
         SessionSave.data = null;
+        SceneTransition.hasPlayerHP = false;
+        SceneTransition.playerHP = 0;
 
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
         );
+    }
+
+    public static void SavePlayerHPForNextScene(int hp)
+    {
+        SceneTransition.playerHP = hp;
+        SceneTransition.hasPlayerHP = true;
+    }
+
+    public static bool TryConsumePlayerHPForNextScene(out int hp)
+    {
+        if (!SceneTransition.hasPlayerHP)
+        {
+            hp = 0;
+            return false;
+        }
+
+        hp = SceneTransition.playerHP;
+        SceneTransition.playerHP = 0;
+        SceneTransition.hasPlayerHP = false;
+        return true;
     }
 
 }

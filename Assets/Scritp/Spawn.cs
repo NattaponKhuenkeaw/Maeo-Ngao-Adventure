@@ -18,6 +18,13 @@ public class PotionSpawner : MonoBehaviour
     public List<SpawnZone> zones = new List<SpawnZone>();
     public float minDistance = 1.2f;
 
+    [Header("Zone Gizmos")]
+    public bool showZoneGizmos = true;
+    public bool alwaysShowZoneGizmos = false;
+    public bool fillZoneGizmos = true;
+    [Range(0f, 1f)] public float zoneFillAlpha = 0.12f;
+    public float zoneGizmoDepth = 0.05f;
+
     private List<Vector3> usedPositions = new List<Vector3>();
 
     void Start()
@@ -103,11 +110,72 @@ public class PotionSpawner : MonoBehaviour
         return false;
     }
 
+    void OnDrawGizmos()
+    {
+        if (alwaysShowZoneGizmos)
+        {
+            DrawZoneGizmos();
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (!alwaysShowZoneGizmos)
+        {
+            DrawZoneGizmos();
+        }
+    }
+
+    void DrawZoneGizmos()
+    {
+        if (!showZoneGizmos || tilemap == null || zones == null)
+        {
+            return;
+        }
+
+        foreach (SpawnZone zone in zones)
+        {
+            Bounds bounds = GetZoneBounds(zone);
+
+            if (fillZoneGizmos)
+            {
+                Color fillColor = zone.gizmoColor;
+                fillColor.a = zoneFillAlpha;
+                Gizmos.color = fillColor;
+                Gizmos.DrawCube(bounds.center, bounds.size);
+            }
+
+            Gizmos.color = zone.gizmoColor;
+            Gizmos.DrawWireCube(bounds.center, bounds.size);
+        }
+    }
+
+    Bounds GetZoneBounds(SpawnZone zone)
+    {
+        int minX = Mathf.Min(zone.minCell.x, zone.maxCell.x);
+        int maxX = Mathf.Max(zone.minCell.x, zone.maxCell.x);
+        int minY = Mathf.Min(zone.minCell.y, zone.maxCell.y);
+        int maxY = Mathf.Max(zone.minCell.y, zone.maxCell.y);
+
+        Vector3Int minCell = new Vector3Int(minX, minY, 0);
+        Vector3Int maxCellExclusive = new Vector3Int(maxX + 1, maxY + 1, 0);
+
+        Vector3 minWorld = tilemap.CellToWorld(minCell);
+        Vector3 maxWorld = tilemap.CellToWorld(maxCellExclusive);
+
+        Vector3 center = (minWorld + maxWorld) * 0.5f;
+        Vector3 size = maxWorld - minWorld;
+        size.z = Mathf.Max(zoneGizmoDepth, 0.01f);
+
+        return new Bounds(center, size);
+    }
+
     [System.Serializable]
     public class SpawnZone
     {
         public Vector2Int minCell;
         public Vector2Int maxCell;
         public int spawnCount = 3;
+        public Color gizmoColor = new Color(0.2f, 1f, 0.35f, 1f);
     }
 }

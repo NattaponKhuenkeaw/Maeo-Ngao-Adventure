@@ -44,5 +44,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 2666728089
+    locked: 0
+  - name: Trap
+    uniqueID: 1863065301
+    locked: 0
+  - name: wall
+    uniqueID: 2410031109
+    locked: 0
+  - name: OBJ
+    uniqueID: 386004695
+    locked: 0
+  - name: Player
+    uniqueID: 4115133961
+    locked: 0
+  - name: Roof
+    uniqueID: 131084295
+    locked: 0
   m_RenderingLayers:
   - Default
